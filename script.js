@@ -3,31 +3,53 @@ const isNum = function(n){
 };
 let number = Math.floor(Math.random()*100);
 console.log(number);
+let restart = function(){
+    return number = Math.floor(Math.random()*100);
+};
 
-function getNum(num){
+function getNum(i){
+    i--;
     let incomeNum = prompt('Угадай число от 1 до 100');
-    // outer: incomeNum = prompt('Введи число повторно от 1 до 100')
-     return function() {
+    return function() {
+        if (i < 1) {
+           if (confirm('Попытки закончились! Хотите сыграть еще?')) {
+            i = 10;
+            restart();
+            console.log(number);
+            return getNum(i);
+            } else {
+                alert('Пока')
+            };  
+        };   
         if (incomeNum == null) { 
             alert('Game over');
             return;
         } else if (!isNum(incomeNum)) {
             alert('Введи число!');
-            return getNum(num);
-        } else if (incomeNum == num) {
-            alert('Угадал!');
-            return;
-        } else if (incomeNum < num) {
-            alert('Загаданное число больше');
-            return getNum(num);
-        } else if (incomeNum > num) {
-            alert('Загаданное число меньше');
-            return getNum(num);
+            return getNum(i);
+        } else if (incomeNum == number) {
+            alert('Поздравляю! Вы угадали!');
+            if (confirm('Хотите сыграть еще?')){
+                i = 10;
+                restart();
+                console.log(number);
+                return getNum(i);
+            } else {
+                alert('Пока')
+            };
+        } else if (incomeNum < number) {
+            alert('Загаданное число больше!' + ' Осталось ' + i + ' попыток');
+            return getNum(i);
+        } else if (incomeNum > number) {
+            alert('Загаданное число меньше!' + ' Осталось ' + i + ' попыток');
+            return getNum(i);
         };
     }();
  };
  
- getNum(number);
+ getNum(10);
+
+
 
 
 
